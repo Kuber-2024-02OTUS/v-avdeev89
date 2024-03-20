@@ -42,7 +42,9 @@ spec:
             exec:
               command: ['sh', '-c', 'rm /homework/index.html']
         readinessProbe:
-          exec:
+          httpGet:
+            path: /index.html
+            port: 8000
             command: ['sh', '-c', 'test -e /homework/index.html']
           initialDelaySeconds: 5
           periodSeconds: 5
