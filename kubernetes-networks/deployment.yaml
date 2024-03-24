@@ -33,7 +33,8 @@ spec:
       - name: web-server
         image: nginx
         ports:
-        - containerPort: 8000
+        - name: webserever-port
+          containerPort: 8000
         volumeMounts:
         - name: shared-volume
           mountPath: /homework
@@ -42,9 +43,9 @@ spec:
             exec:
               command: ['sh', '-c', 'rm /homework/index.html']
         readinessProbe:
-          httpGet:
-            path: /index.html
-            port: 8000
-            command: ['sh', '-c', 'test -e /homework/index.html']
-          initialDelaySeconds: 5
-          periodSeconds: 5
+            httpGet: 
+              path: /healthz
+              port: 8000 
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
