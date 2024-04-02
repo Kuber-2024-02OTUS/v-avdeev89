@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: homework-volumes
+  namespace: homework
+  labels:
+    app: homework-volumes
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: homework-volumes
+  resources:
+    requests:
+      storage: 2Gi
