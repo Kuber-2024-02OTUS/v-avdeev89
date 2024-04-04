@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homework-monitoring
+  namespace: homework
+  labels:
+    app: homework-monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homework-monitoring
+  template:
+    metadata:
+      labels:
+        app: homework-monitoring
+    spec:
+      containers:
+      - image: "nginx/nginx-prometheus-exporter:1.1.0"
+        name: exporter
+        args: ["-nginx.scrape-uri=http://localhost:8000/nginx_status"]
+        ports:
+        - containerPort: 9113
+          name: metrics
+      - image: "nginx:1.21.0"
+        name: nginx
+        ports:
+        - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
