@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: servicemonitor
+  namespace: homework
+  labels:
+     app: homework-monitoring
+spec:
+  selector:
+    matchLabels:
+       app: homework-monitoring
+  endpoints:
+  - interval: 30s 
+    port: metrics
