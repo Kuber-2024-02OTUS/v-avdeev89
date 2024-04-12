@@ -6,7 +6,7 @@ metadata:
     name: my-web-server
   namespace: homework
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: my-web-server   
@@ -50,12 +50,7 @@ spec:
           volumeMounts:
           - name: shared-volume
             mountPath: /init
-          command:
-          - /bin/sh
-          - -c
-          - |
-            TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
-            wget --no-check-certificate --header "Authorization: Bearer ${TOKEN}" -O /init/metrics.html https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT_HTTPS}/metrics
+          command: ["/bin/sh","-c","|","TOKEN='$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)'","wget --no-check-certificate --header 'Authorization: Bearer ${TOKEN}' -O /init/metrics.html https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT_HTTPS}/metrics"]
 
       dnsPolicy: Default
       volumes:
